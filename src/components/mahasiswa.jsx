@@ -1,7 +1,7 @@
-function Mahasiswa(){
-    return <form>
+const Mhs = (props) => {    
+  return <form>
     <div className>
-    <h1>Selamat Datang Professional</h1>
+    <h1>Selamat Datang Mahasiswa</h1>
       <label>
       NIM :
       </label>
@@ -15,6 +15,10 @@ function Mahasiswa(){
     
     </div>
   </form>;
-}
+ }
 
-export default Mahasiswa;
+// const Label = (props) => {
+//   return <label>Selamat Datang Mahasiswa</label>
+// }
+
+export default Mhs;

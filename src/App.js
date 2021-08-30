@@ -2,6 +2,10 @@
 // import { ReactDOM } from 'react';
 import React from "react";
 // import Mhs from "./components/mahasiswa";
+// import Button from './atom/button'
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import Mhs from "./components/mahasiswa";
+import Prof from "./components/prof";
 
 
 function LoginMhs(props) {
@@ -20,9 +24,9 @@ function LoginProf(props) {
   );
 }
 
-function LoginForm(){
+// function LoginForm(){
     
-}
+// }
 
 class LoginControl extends React.Component {
   constructor(props) {
@@ -60,31 +64,11 @@ class LoginControl extends React.Component {
 }
 
 function Mahasiswa(props) {
-  return <form>
-  <h1>Selamat Datang Mahasiswa</h1>
-  <div className="form-group">
-    <label>NIM :</label>
-    <input type="text" placeholder="Masukkan NIM Anda" required />
-  </div>
-  <div className="form-group">
-    <label>Password :</label>
-    <input type="password" placeholder="Masukkan Password Anda" required />
-  </div>
-</form>;
+  return <Mhs></Mhs>
 }
 
 function Professional(props) {
-  return <form>
-  <h1>Selamat Datang Professional</h1>
-  <div className="form-group">
-    <label>Username :</label>
-    <input type="email" placeholder="Masukkan username Anda" required />
-  </div>
-  <div className="form-group">
-    <label>Password :</label>
-    <input type="password" placeholder="Masukkan Password Anda" required />
-  </div>
-</form>;
+  return <Prof></Prof>
 }
 
 function Login(props) {
