@@ -85,7 +85,7 @@ import "./App.css";
 //Import calendar
 // import { Panel, PanelGroup } from 'rsuite';
 import React, { useState } from "react";
-import Adult from "./components/adult";
+import Adult from "./components/Adult";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, Row, Col, Input } from 'reactstrap';
 import { Button, Form, Navbar, Card, Table, InputGroup, FormControl} from 'react-bootstrap';
@@ -170,7 +170,7 @@ export default function App() {
     e.preventDefault();
     <div>
     <Form.Group className="mb-3" controlId="formGroupEmail">
-			<Form.Label>Nama Pemesan</Form.Label>
+			<Form.Label>Nama</Form.Label>
 			<Form.Control type="text" value={name} onChange={getName} />
       </Form.Group>
     </div>
