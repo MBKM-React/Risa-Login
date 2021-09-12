@@ -1,256 +1,93 @@
-// // import './App.css';
-// // import { ReactDOM } from 'react';
-// import React from "react";
-// // import Mhs from "./components/mahasiswa";
-// // import Button from './atom/button'
-// // import 'bootstrap/dist/css/bootstrap.min.css';
-// import Mhs from "./components/mahasiswa";
-// import Prof from "./components/prof";
-
-
-// function LoginMhs(props) {
-//   return (
-//     <button onClick={props.onClick}>
-//       Login As Mahasiswa
-//     </button>
-//   );
-// }
-
-// function LoginProf(props) {
-//   return (
-//     <button onClick={props.onClick}>
-//       Login As Professional
-//     </button>
-//   );
-// }
-
-// // function LoginForm(){
-    
-// // }
-
-// class LoginControl extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.prof = this.prof.bind(this);
-//     this.stud = this.stud.bind(this);
-//     this.state = {isLoggedIn: false};
-//   }
-
-//   prof() {
-//     this.setState({isLoggedIn: true});
-//   }
-
-//   stud() {
-//     this.setState({isLoggedIn: false});
-//   }
-
-//   render() {
-//     const isLoggedIn = this.state.isLoggedIn;
-//     let button;
-
-//     if (isLoggedIn) {
-//       button = <LoginProf onClick={this.stud} />;
-//     } else {
-//       button = <LoginMhs onClick={this.prof} />;
-//     }
-
-//     return (
-//       <div>
-//         <Login isLoggedIn={isLoggedIn} />
-//         {button}
-//       </div>
-//     );
-//   }
-// }
-
-// function Mahasiswa(props) {
-//   return <Mhs></Mhs>
-// }
-
-// function Professional(props) {
-//   return <Prof></Prof>
-// }
-
-// function Login(props) {
-//   const isLoggedIn = props.isLoggedIn;
-//   if (isLoggedIn) {
-//     return <Mahasiswa />;
-//   }
-//   return <Professional />;
-// }
-
-// export default LoginControl;
-
 import "./App.css";
-//Import calendar
-// import { Panel, PanelGroup } from 'rsuite';
 import React, { useState } from "react";
-import Adult from "./components/Adult";
+// import Adult from "./components/adult";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, Row, Col, Input } from 'reactstrap';
-import { Button, Form, Navbar, Card, Table, InputGroup, FormControl} from 'react-bootstrap';
+import {Container, Row, Col } from 'reactstrap';
+import { Button, Form, Navbar, Card, Table, InputGroup, FormControl, Modal} from 'react-bootstrap';
 
 
 export default function App() {
   const [nik, setNIK] = useState("");
   const [search, setSearch] = useState(``);
-  // const [rute, setRute] = useState("");
   const [date, setDate] = useState("");
   let [data, setData] = useState([
-    {id: '1', from : 'Pematangsiantar', to:'Medan', price : 40000, time: '20 September 2021 15:40', aksi : 'Pesan' },
-    {id: '2', from : 'Medan',to:'Pematangsiantar' , price : 40000, time: '21 September 2021 16:40', aksi :'Pesan'},
-    {id: '3',from : 'Kisaran',to :'Medan',price : 25000, time: '22 September 2021 13:00', aksi :'Pesan'},
-    {id: '4',from : 'Medan', to :'Kisaran', price : 25000, time: '23 September 2021 14:00', aksi :'Pesan'},
-    {id: '5',from : 'Bengkel', to:'Pematangsiantar', price : 15000, time: '23 September 2021 16:40', aksi :'Pesan'},
-    {id: '6',from: 'Pematangsiantar', to:'Bengkel', price : 15000, time: '23 September 2021 08:40', aksi :'Pesan'}
+    {id: '1',from : 'Pematangsiantar', to:'Medan', price : 40000, time: '20 September 2021 15:40' },
+    {id: '2',from : 'Medan',to:'Pematangsiantar' , price : 40000, time: '21 September 2021 16:40'},
+    {id: '3',from : 'Kisaran',to :'Medan',price : 25000, time: '22 September 2021 13:00'},
+    {id: '4',from : 'Medan', to :'Kisaran', price : 25000, time: '23 September 2021 14:00'},
+    {id: '5',from : 'Bengkel', to:'Pematangsiantar', price : 15000, time: '23 September 2021 16:40'},
+    {id: '6',from : 'Pematangsiantar', to:'Bengkel', price : 15000, time: '23 September 2021 08:40'},
+    {id: '7',from : 'Tebing', to:"Pematangsiantar", price: 25000, time: '24 September 2021 08:40' }
   ]);
 
+
+  const [from, setFrom] = useState(); 
+  const [to, setTo] = useState();  
+  const [item, setItem] = useState();
   const [num, setNumber] = useState(1);
   const [child, setChild] = useState(0);
-  // useEffect(() => {
-  //   document.title="Sistem" + name
-  //   console.log("update")
-  //   return () => {
-  //     setNumber();
-  //   }
-  // }, [])
   const [name, setName] = useState("");
-  const [tiket, setTiket] = useState("");
-  // const handleClick = () => {
-  //   console.log("123");
-  //   if (
-  //     kota === ""||
-  //     name === "" ||
-  //     date === "" ||
-  //     num === "" ||
-  //     child  === ""
-  //   ) {
-  //     alert("Enter all the  fields");
-  //   } else if(kota === "") {
-  //     alert("Fill the Field!");
-  //     } else if(name === "" ){
-  //     alert("Fill the Field!");
-  //   }  
-  // };
-  // useEffect(() => {
-  //   if (date.value) {
-  //     setDatetime(date.value.toISOString());
-  //   }
-  // }, [date]);
-  
+
+  //Tampil tabel
+  const [tiket, setTiket] = useState(false);
+  const [hasil, setHasil] = useState([]);
+
   function getName(e) {
     setName(e.target.value);
   }
-  // function getNIK(e) {
-  //   setNIK(e.target.value);
+
+  // function getFrom(e){
+  //   setFrom(e.target.value);
+  //   console.log(e.target.value);
   // }
 
-  function getFrom(from){
-  console.log (from)
-  }
-
-  function getTo(to){
-    setData(to.target.value);
-  }
+  // function getTo(e){
+  //   setData(e.target.value);
+  //   console.log(e.target.value);
+  // }
 
   function getDewasa(e){
     setNumber(e.target.value);
+    // console.log(e.target.value);
   }
 
   function getAnak(e){
     setChild(e.target.value);
+    // console.log(e.target.value);
   }
-
   
   function getDate(e){
     setDate(e.target.value);
+    // console.log(e.target.value);
+  }
+  const handleOrder = () => {
+    
   }
 
-  function handlePesan(e){
-    e.preventDefault();
-    <div>
-    <Form.Group className="mb-3" controlId="formGroupEmail">
-			<Form.Label>Nama</Form.Label>
-			<Form.Control type="text" value={name} onChange={getName} />
-      </Form.Group>
-    </div>
-  }
-
-
-  const getUnique = (arr, comp) => {
-  const unique = arr
-     //store the comparison values in array
-     .map(e => e[comp])
-
-     // store the keys of the unique objects
-     .map((e, i, final) => final.indexOf(e) === i && i)
-
-     // eliminate the dead keys & store unique objects
-     .filter(e => arr[e])
-
-     .map(e => arr[e]);
-
-   return unique;
-
-  };
-  const fromUnique = getUnique(data, "from");
-
-
-  function formTicket(e){ 
-    e.preventDefault(); 
-    setTiket(
-    // <div>
-    //   <Card body>
-    //     <h3>Tiket Pemesanan</h3>
-    //     <h6>Nama Pemesan : {name}</h6>
-    //     <h6>Tiket :<b>{num}</b> dewasa dan<b> {child}</b> anak </h6>
-    //     <h6>Pada: {date}</h6>
-    //     <h6>Dari : {data.from} ke {data.to} </h6>
-    //     <h6>Total : {data.price*{num}} </h6>
-    //   </Card>
-    // </div>
-<Card>
-	<Card.Body>
-		<Card.Title>Harga Tiket {/*
-			<InputGroup>
-				<FormControl type="text" placeholder="Search" onChange={handleSearch} value={search} />
-			</InputGroup>*/}</Card.Title>
-		<Card>
-			<Table striped bordered hover>
-				<thead>
-					<tr>{/*
-						<th>No</th>*/}
-						<th>No</th>
-						<th>Asal</th>
-						<th>Tujuan</th>
-						<th>Harga</th>
-						<th>Waktu</th>
-						<th>Aksi</th>
-					</tr>
-				</thead>
-				<tbody>{data.map((item, index) => (
-					<tr key={index}>
-						<td>{item.id}</td>
-						<td>{item.from}</td>
-						<td>{item.to}</td>
-						<td>{item.price}</td>
-						<td>{item.time}</td>
-						<td>
-							<Button onClick={handlePesan}>Pesan</Button>
-						</td>
-					</tr>))}</tbody>
-			</Table>
-		</Card>
-	</Card.Body>
-</Card>)}
   function handleSearch(e){
-    setSearch(e.target.value);
-  };
-
-  if(search.length > 0){
-    data = data.from.filter((i) =>{
-      return i.from.toLowerCase().match(search);
+    e.preventDefault();
+    const result = data.filter((item) => {
+      return item.from === from && item.to === to;
     })
+    setTiket(true);
+    setHasil(result);
+
+    // console.log(result);
+    // if(from === item.from ){
+    //  return <Table />
+    // }else{
+    //   return <Modal.Dialog>
+    //               <Modal.Header closeButton>
+    //                 <Modal.Title>Warning!</Modal.Title>
+    //               </Modal.Header>
+    //               <Modal.Body>
+    //                 <p>Ticket is not found!</p>
+    //               </Modal.Body>
+    //               <Modal.Footer>
+    //                 <Button variant="secondary">Close</Button>
+    //               </Modal.Footer>
+    //             </Modal.Dialog>
+    // }
   }
   return (
     <>
@@ -261,32 +98,28 @@ export default function App() {
         </Container>
       </Navbar>
       <Row>
+
 {/* Submit Form */}
-<Col>
-	<Form onSubmit={formTicket}>
+<Col md={4}>
+	<Form>
   
   {/* From */}
 		<Form.Group className="mb-3">
 			<Form.Label>Dari</Form.Label>
 			<Form.Select defaultValue="Choose..." 
-      onSelect={getFrom}>{data.map((item)=> (
-				<option key={item.id} value={item.from}>{item.from}</option>))}</Form.Select>
+        onChange={(e) => setFrom(e.target.value)}
+      >{data.map((item)=> (
+				<option value={item.from}>{item.from}</option>))}</Form.Select>
 		</Form.Group>
     
   {/* Tujuan */}
 		<Form.Group className="mb-3" controlId="formGroupEmail">
 			<Form.Label>Tujuan</Form.Label>
-			<Form.Select defaultValue="Choose..." onSelect={getTo} value={data.to}>{fromUnique.map((item)=> (
-				<option key={item.id} value={item.to}>{item.to}</option>))}</Form.Select>
+			<Form.Select defaultValue="Choose..."
+      onChange={(e) => setTo(e.target.value)}
+      >{data.map((item)=> (
+				<option  value={item.to}> {item.to}</option>))}</Form.Select>
 		</Form.Group>
-    
-  
-  {/* Stasiun */} {/*
-		<Form.Group className="mb-3" controlId="formGridState">
-			<Form.Label>Rute</Form.Label>
-			<Form.Select defaultValue="Choose...">{kota.map((option) => (
-				<option>{option.kota}</option>))}</Form.Select>
-		</Form.Group>*/}
     
     {/* Dewasa */}
 		<Form.Group className="mb-3" controlId="formGroupEmail">
@@ -307,15 +140,63 @@ export default function App() {
     {/* Nama Pemesan */}
 		{/* <Form.Group className="mb-3" controlId="formGroupEmail">
 			<Form.Label>Nama Pemesan</Form.Label>
-			<Form.Control type="text" value={name} onChange={getName} />
-      </Form.Group> */}
+			<Form.Control type="text" value={name} onChange={getName} /></Form.Group> */}
 
-
-		<Button variant="primary mt-2" type="submit" value="Book" onChange={handleSearch}>Cari</Button>
-  </Form>
+		<Button variant="primary mt-2" type="submit" onClick={handleSearch}>Cari</Button>
+	</Form>
 </Col>
+<Col md={8}>
+  <Card>{/*
+            <Card.Img variant="top" src="https://picsum.photos/200/300" />*/}
+            <Card.Body>
+              <Card.Title>Harga Tiket
+              </Card.Title>
+              <Card>
+              {tiket === true ?
+                (<Table striped bordered hover>
+                  <thead>
+                    <tr>{/*
+                      <th>No</th>*/}
+                      <th>No</th>
+                      <th>Asal</th>
+                      <th>Tujuan</th>
+                      <th>Harga</th>
+                      <th>Waktu</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody className='TabelTiket'>
+                  {hasil.map((item, index) =>(
+                    <tr key={item.id}>
+                      <td>{item.id}</td>
+                      <td>{item.from}</td>
+                      <td>{item.to}</td>
+                      <td>{item.price}</td>
+                      <td>{item.time}</td>
+                      <td><Button onClick={handleOrder}>Pesan</Button></td>
+                    </tr>))}</tbody>
+                </Table> ) : (
+                  <Modal.Dialog>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Warning!</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <p>Ticket is not found!</p>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary">Close</Button>
+                  </Modal.Footer>
+                </Modal.Dialog>
+                )
+              }
+              </Card>
+            </Card.Body>
+          </Card>
+        </Col>
 </Row>
-<p>{tiket}</p>
+
+  
+{/* <p>{tiket}</p> */}
 </Container>
 </>
 );
