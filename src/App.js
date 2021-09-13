@@ -1,9 +1,16 @@
 import "./App.css";
 import React, { useState } from "react";
 // import Adult from "./components/adult";
+import { Router, Link , Route } from "react-router-dom";
+// import Pesan from "./components/Pesan"
+import Adults from './components/Adults'
+import Child from './components/Child'
+import Tiket from './components/Tiket'
+import Pemesan from './components/Pemesan'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, Row, Col } from 'reactstrap';
-import { Button, Form, Navbar, Card, Table, InputGroup, FormControl, Modal} from 'react-bootstrap';
+import { useHistory } from "react-router-dom";
+import { Button, Form, Navbar, Card, Modal, Table } from 'react-bootstrap';
 
 
 export default function App() {
@@ -23,6 +30,7 @@ export default function App() {
 
   const [from, setFrom] = useState(); 
   const [to, setTo] = useState();  
+  const [price, setPrice] = useState();
   const [item, setItem] = useState();
   const [num, setNumber] = useState(1);
   const [child, setChild] = useState(0);
@@ -35,16 +43,46 @@ export default function App() {
   function getName(e) {
     setName(e.target.value);
   }
-
-  // function getFrom(e){
-  //   setFrom(e.target.value);
-  //   console.log(e.target.value);
-  // }
-
-  // function getTo(e){
-  //   setData(e.target.value);
-  //   console.log(e.target.value);
-  // }
+  const [pesan, setPesan] = useState();
+  function Pesan (){
+    setPesan(
+    <Container>
+    <Row>
+      <Col>
+        <Pemesan />
+      </Col>
+      <Col>
+      {/* Tiket */}
+      <Card border="secondary" style={{ width: '30rem' }}>
+        <Card.Header>Total Pembayaran
+          <h3>Rp 1000.000</h3>
+        </Card.Header>
+        <Card.Body>
+          <Card.Text>
+            <Col>
+              <Row>
+            <h5>Sabtu, 25 Desember 2021</h5>
+            <h6>{num} Dewasa,  {child} Anak</h6>
+              </Row>
+              <Row mt="3"><h6>Asal : {from} </h6></Row>
+              <Row></Row>
+              <Row><h6>Tujuan : {to}</h6></Row>
+            </Col>
+          </Card.Text>
+        </Card.Body>
+      </Card>
+      </Col>
+    </Row>
+    <Row>
+      <Col>
+        <Adults />
+      </Col>
+      <Col>
+        <Child />
+      </Col>
+    </Row>
+  </Container>)
+  }
 
   function getDewasa(e){
     setNumber(e.target.value);
@@ -60,10 +98,6 @@ export default function App() {
     setDate(e.target.value);
     // console.log(e.target.value);
   }
-  const handleOrder = () => {
-    
-  }
-
   function handleSearch(e){
     e.preventDefault();
     const result = data.filter((item) => {
@@ -71,23 +105,12 @@ export default function App() {
     })
     setTiket(true);
     setHasil(result);
+  }
 
-    // console.log(result);
-    // if(from === item.from ){
-    //  return <Table />
-    // }else{
-    //   return <Modal.Dialog>
-    //               <Modal.Header closeButton>
-    //                 <Modal.Title>Warning!</Modal.Title>
-    //               </Modal.Header>
-    //               <Modal.Body>
-    //                 <p>Ticket is not found!</p>
-    //               </Modal.Body>
-    //               <Modal.Footer>
-    //                 <Button variant="secondary">Close</Button>
-    //               </Modal.Footer>
-    //             </Modal.Dialog>
-    // }
+  let history = useHistory();
+  function handleOrder(){
+  //  return <Route exact path="/order" component={Pesan}></Route>
+  history.push('Pesan');
   }
   return (
     <>
@@ -97,11 +120,13 @@ export default function App() {
           <Navbar.Brand href="#">E-Ticketing KAI</Navbar.Brand>
         </Container>
       </Navbar>
-      <Row>
-
+      
+<Row>
 {/* Submit Form */}
 <Col md={4}>
-	<Form>
+<Card className="mt-3">
+  <Card.Body>
+  <Form>
   
   {/* From */}
 		<Form.Group className="mb-3">
@@ -130,34 +155,22 @@ export default function App() {
 		<Form.Group className="mb-3" controlId="formGroupEmail">
 			<Form.Label>Child</Form.Label>
 			<Form.Control type="number" min="0" value={child} onChange={getAnak} /></Form.Group>
-      
-    {/* Kalender */}
-		<Form.Group className="mb-3">
-			<Form.Label>Tanggal Keberangkatan</Form.Label>
-			<Form.Control type="date" onChange={getDate}></Form.Control>
-		</Form.Group>
-
-    {/* Nama Pemesan */}
-		{/* <Form.Group className="mb-3" controlId="formGroupEmail">
-			<Form.Label>Nama Pemesan</Form.Label>
-			<Form.Control type="text" value={name} onChange={getName} /></Form.Group> */}
-
 		<Button variant="primary mt-2" type="submit" onClick={handleSearch}>Cari</Button>
 	</Form>
+  </Card.Body>
+</Card>
 </Col>
 <Col md={8}>
-  <Card>{/*
-            <Card.Img variant="top" src="https://picsum.photos/200/300" />*/}
+  <Card className="mt-3">
             <Card.Body>
               <Card.Title>Harga Tiket
               </Card.Title>
-              <Card>
               {tiket === true ?
                 (<Table striped bordered hover>
                   <thead>
                     <tr>{/*
                       <th>No</th>*/}
-                      <th>No</th>
+                      {/* <th>No</th> */}
                       <th>Asal</th>
                       <th>Tujuan</th>
                       <th>Harga</th>
@@ -168,34 +181,26 @@ export default function App() {
                   <tbody className='TabelTiket'>
                   {hasil.map((item, index) =>(
                     <tr key={item.id}>
-                      <td>{item.id}</td>
+                      {/* <td>{item.id}</td> */}
                       <td>{item.from}</td>
                       <td>{item.to}</td>
                       <td>{item.price}</td>
                       <td>{item.time}</td>
-                      <td><Button onClick={handleOrder}>Pesan</Button></td>
+                      <td>
+                      {/* <Route exact path ="/Pesan" type="submit"
+                      component = {Pesan}>Pesan</Route> */}
+                      <Button onClick={Pesan}>Pesan</Button>
+                      </td>
                     </tr>))}</tbody>
                 </Table> ) : (
-                  <Modal.Dialog>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Warning!</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
                     <p>Ticket is not found!</p>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button variant="secondary">Close</Button>
-                  </Modal.Footer>
-                </Modal.Dialog>
                 )
               }
-              </Card>
             </Card.Body>
           </Card>
         </Col>
-</Row>
-
-  
+</Row> 
+<Row>{pesan}</Row>
 {/* <p>{tiket}</p> */}
 </Container>
 </>

@@ -1,4 +1,3 @@
-import "./App.css"; 
 import React, { useState } from "react"; 
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import {Container, Row, Col } from 'reactstrap'; 
@@ -9,8 +8,7 @@ export default function App() {
   return (
   <>
     <Container fluid="md">
-      <h2>Pemesanan Tiket</h2>
-      <Card border="secondary" style={{ width: '30rem' }}>
+    <Card border="secondary" style={{ width: '30rem' }}>
         <Card.Header>Data Pemesan</Card.Header>
         <Card.Body>
           <Card.Text>
